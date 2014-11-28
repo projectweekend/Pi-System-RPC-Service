@@ -1,0 +1,25 @@
+{
+  "name": "Pi-System-RPC-Service",
+  "version": "1.0.0",
+  "description": "An RPC service providing system data from a Raspberry Pi using RabbitMQ",
+  "main": "main.js",
+  "dependencies": {
+    "jackrabbit": "^3.0.8",
+    "loggly": "^1.0.7",
+    "throng": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/projectweekend/Pi-System-RPC-Service.git"
+  },
+  "author": "Brian Hines",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/projectweekend/Pi-System-RPC-Service/issues"
+  },
+  "homepage": "https://github.com/projectweekend/Pi-System-RPC-Service"
+}
