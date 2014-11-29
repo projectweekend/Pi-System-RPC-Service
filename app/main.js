@@ -6,6 +6,7 @@ var utils = require( "./shared/utils" );
 
 var logger = connections.logger( [ "Pi-System-RPC-Service" ] );
 
+
 var run = function () {
     logger.log( "Starting Pi-System-RPC-Service" );
 
@@ -33,3 +34,9 @@ var run = function () {
 
     broker.once( "connected", create );
 };
+
+
+throng( run, {
+    workers: os.cpus().length,
+    lifetime: Infinity
+} );
