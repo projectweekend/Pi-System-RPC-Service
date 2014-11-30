@@ -1,7 +1,7 @@
 var exec = require( "child_process" ).exec;
 
 
-exports.readCPUTemperature = function ( cb ) {
+exports.readCPUTemperature = function ( done ) {
     exec( "vcgencmd measure_temp", function ( err, stdout, stderr ) {
         if ( err ) {
             return done( err );
