@@ -14,6 +14,13 @@ var run = function () {
     var broker = connections.jackrabbit();
 
     var handleMessage = function ( message, ack ) {
+        utils.readCPUTemperature( function ( err, data ) {
+            if ( err ) {
+                logger.log( "Error with: 'utils.readCPUTemperature'" );
+                process.exit();
+            }
+            ack( JSON.stringify( { "cpuTemperature": data } ) );
+        } );
     };
 
     var serve = function () {
