@@ -12,6 +12,12 @@ exports.readCPUTemperature = function ( done ) {
             return done( new Error( "No temp in stdout: " + stdout ) );
         }
 
-        return done( null, parseFloat( match[ 0 ] ) );
+        var tempC = parseFloat( match[ 0 ] );
+        var tempF = tempC * (9/5) + 32;
+
+        return done( null, {
+            temp_c: tempC,
+            temp_f: tempF
+        } );
     } );
 };
