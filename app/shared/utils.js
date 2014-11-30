@@ -16,8 +16,8 @@ exports.readCPUTemperature = function ( done ) {
         var tempF = tempC * (9/5) + 32;
 
         return done( null, {
-            temp_c: tempC,
-            temp_f: tempF
+            celsius: tempC,
+            fahrenheit: tempF
         } );
     } );
 };
