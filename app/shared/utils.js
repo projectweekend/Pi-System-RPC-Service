@@ -11,7 +11,7 @@ var readCPUTemperature = function ( done ) {
         var match = stdout.match(/\d+\.\d+|\d+/);
 
         if ( !match ) {
-            return done( "No temp in stdout: " + stdout );
+            return done( new Error( "No temp in stdout: " + stdout ) );
         }
 
         return done( null, parseFloat( match[ 0 ] ) );
