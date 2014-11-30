@@ -10,7 +10,6 @@ var logger = connections.logger( [ "Pi-System-RPC-Service" ] );
 var run = function () {
     logger.log( "Starting Pi-System-RPC-Service" );
 
-    var serialPort = connections.serialport();
     var broker = connections.jackrabbit();
 
     var handleMessage = function ( message, ack ) {
