@@ -19,6 +19,7 @@ var run = function () {
                 process.exit();
             }
             ack( JSON.stringify( {
+                date: new Date(),
                 cpu_temp_c: data.celsius,
                 cpu_temp_f: data.fahrenheit
             } ) );
