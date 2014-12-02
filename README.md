@@ -26,6 +26,7 @@ sudo service system-rpc stop
 To manually start it:
 ```
 sudo service system-rpc start
+```
 
 
 ### Usage
