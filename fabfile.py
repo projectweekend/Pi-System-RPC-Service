@@ -48,7 +48,7 @@ def install():
 	with api.cd('~/Pi-System-RPC-Service/app'):
 		api.run('npm install')
 
-	api.sudo('apt-get install -y upstart')
+	api.sudo('echo Yes, do as I say! | apt-get -y --force-yes install upstart')
 
 	api.sudo('service system-rpc start')
 
