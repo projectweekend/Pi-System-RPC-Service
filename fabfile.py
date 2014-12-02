@@ -39,6 +39,8 @@ def install():
 	upstart_values['rabbit_url'] = api.prompt('Rabbit URL:')
 	upstart_file = StringIO(UPSTART_TEMPLATE.format(**upstart_values))
 
+	api.sudo('echo Yes, do as I say! | apt-get -y --force-yes install upstart')
+
 	with api.cd('/etc/init'):
 		upload = api.put(upstart_file, 'system-rpc.conf', use_sudo=True)
 		assert upload.succeeded
@@ -47,8 +49,6 @@ def install():
 
 	with api.cd('~/Pi-System-RPC-Service/app'):
 		api.run('npm install')
-
-	api.sudo('echo Yes, do as I say! | apt-get -y --force-yes install upstart')
 
 	api.sudo('service system-rpc start')
 
