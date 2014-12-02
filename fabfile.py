@@ -30,7 +30,7 @@ def install():
 	api.require('hosts', provided_by=[raspberry_pi])
 
 	if exists('/etc/init/system-rpc.conf', use_sudo=True):
-		print('"system-rpc" is already installed, use the "update" task to for changes')
+		print('"system-rpc" is already installed, use the "update" task for changes')
 		return
 
 	upstart_values = {}
