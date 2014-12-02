@@ -15,3 +15,52 @@ The task will prompt you for these values:
 * `Loggly token:` - The token from your [Loggly](https://www.loggly.com/) account. The service logs data using Loggly which makes it easier to remotely monitor.
 * `Loggly domain:` - The domain from your Loggly account.
 * `Rabbit URL:` - The connection URL for the RabbitMQ server. If you don't feel like running your own, check out [CloudAMPQ](https://www.cloudamqp.com/).
+
+The install process will add an [Upstart](http://upstart.ubuntu.com/) script that will handle starting/stopping the service when the Raspberry Pi starts up or shuts down.
+
+To manually stop it:
+```
+sudo service system-rpc stop
+```
+
+To manually start it:
+```
+sudo service system-rpc start
+
+
+### Usage
+
+Any script or program can request data from this service provided:
+
+* It has the same `Rabbit URL` value used during installation and can connect to the RabbitMQ server.
+* It sends messages to the correct queue (`system.get` in this project).
+
+#### JavaScript Example
+
+There are plenty of JavaScript client libraries for RabbitMQ. This example uses [Jackrabbit](https://github.com/hunterloftis/jackrabbit).
+
+```javascript
+var jackrabbit = require( "jackrabbit" );
+
+// Use an environment variable for RABBIT_URL
+var broker = jackrabbit( process.env.RABBIT_URL, 1 );
+
+var ready = function () {
+    // Send a message to request the sensor data
+    broker.publish( "system.get", {}, function ( err, data ) {
+        if ( err ) {
+            // Do something with the error
+            console.log( err );
+        }
+        // Do something with the sensor data
+        console.log( data );
+        process.exit();
+    } );
+};
+
+var create = function () {
+  broker.create( "system.get", { prefetch: 5 }, ready );
+};
+
+broker.once( "connected", create );
+```
