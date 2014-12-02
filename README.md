@@ -47,7 +47,7 @@ var jackrabbit = require( "jackrabbit" );
 var broker = jackrabbit( process.env.RABBIT_URL, 1 );
 
 var ready = function () {
-    // Send a message to request the sensor data
+    // Send a message to request the system data
     broker.publish( "system.get", {}, function ( err, data ) {
         if ( err ) {
             // Do something with the error
