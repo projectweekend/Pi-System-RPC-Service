@@ -1,7 +1,7 @@
 from StringIO import StringIO
 
 from fabric import api
-from fabric.operations import prompt, put
+from fabric.contrib.files import exists
 
 
 UPSTART_TEMPLATE = """
@@ -22,27 +22,33 @@ end script
 
 
 def raspberry_pi():
-	api.env.hosts = ["{0}.local".format(prompt("Raspberry Pi:"))]
+	api.env.hosts = ['{0}.local'.format(api.prompt('Raspberry Pi:'))]
 	api.env.user = 'pi'
 
 
 def install():
 	api.require('hosts', provided_by=[raspberry_pi])
 
+	if exists('/etc/init/system-rpc.conf', use_sudo=True):
+		print('"system-rpc" is already installed, use the "update" task to for changes')
+		return
+
 	upstart_values = {}
-	upstart_values['loggly_token'] = prompt("Loggly token:")
-	upstart_values['loggly_domain'] = prompt("Loggly domain:")
-	upstart_values['rabbit_url'] = prompt("Rabbit URL:")
+	upstart_values['loggly_token'] = api.prompt('Loggly token:')
+	upstart_values['loggly_domain'] = api.prompt('Loggly domain:')
+	upstart_values['rabbit_url'] = api.prompt('Rabbit URL:')
 	upstart_file = StringIO(UPSTART_TEMPLATE.format(**upstart_values))
 
 	with api.cd('/etc/init'):
-		upload = put(upstart_file, 'system-rpc.conf', use_sudo=True)
+		upload = api.put(upstart_file, 'system-rpc.conf', use_sudo=True)
 		assert upload.succeeded
 
 	api.run('git clone https://github.com/projectweekend/Pi-System-RPC-Service.git')
 
 	with api.cd('~/Pi-System-RPC-Service/app'):
 		api.run('npm install')
+
+	api.sudo('apt-get install -y upstart')
 
 	api.sudo('service system-rpc start')
 
