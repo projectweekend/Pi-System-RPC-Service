@@ -18,11 +18,11 @@ var run = function () {
                 logger.log( "Error with: 'utils.readCPUTemperature'" );
                 process.exit();
             }
-            ack( JSON.stringify( {
+            ack( {
                 date: new Date(),
                 cpu_temp_c: data.celsius,
                 cpu_temp_f: data.fahrenheit
-            } ) );
+            } );
         } );
     };
 
